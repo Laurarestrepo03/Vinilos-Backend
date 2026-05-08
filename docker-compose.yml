@@ -1,0 +1,36 @@
+version: "3.8"
+   
+services:
+  web:
+    build: .
+    command: npm run start:prod
+    volumes:
+      - /usr/src/app
+    environment:
+      DB_HOST: "db"
+      DB_USER: "postgres"
+      DB_PASS: "postgres"
+      DB_NAME: "vinyls"
+      USE_SSL: "false"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - default
+
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=vinyls
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/
