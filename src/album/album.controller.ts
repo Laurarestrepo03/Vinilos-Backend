@@ -3,6 +3,9 @@ import { AlbumService } from './album.service';
 import { AlbumDTO } from './album.dto';
 
 import { BusinessErrorsInterceptor } from "../interceptors/interceptor";
+import { GENRE } from '../genre/genre.enum';
+import { RECORD_LABEL } from '../recordlabel/recordlabel.enum';
+
 @Controller('albums')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class AlbumController {
@@ -11,6 +14,16 @@ export class AlbumController {
     @Get()
     async findAll() {
         return await this.albumService.findAll();
+    }
+
+    @Get('genres')
+    getGenres() {
+        return Object.values(GENRE)
+    }
+
+    @Get('recordLabels')
+    getRecordLabels() {
+        return Object.values(RECORD_LABEL)
     }
 
     @Get(':albumId')
